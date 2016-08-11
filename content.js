@@ -1,17 +1,31 @@
-// also add 'onkeyup'
 document.addEventListener('mouseup', function(event){
 	var text = window.getSelection().toString();
 	if (text.length && !isNaN(text)) {
-		chrome.runtime.sendMessage({'number': text}, function(response) {
-			alert(response.text);
-			alert(response.sel);
-			alert(response.thing);
+		chrome.runtime.sendMessage({'number': text, 'centerPopupValues': centerPopupValues()}, function(response) {
 		});
-		// chrome.extension.sendRequest({'message':'setText','data': sel},function(response){})
 	}
-
-	else {
-		alert("meh: " + (typeof text));
-	}
-
 });
+
+document.addEventListener('onkeyup', function(event){
+	var text = window.getSelection().toString();
+	if (text.length && !isNaN(text)) {
+		chrome.runtime.sendMessage({'number': text}, function(response) {
+		});
+	}
+});
+
+centerPopupValues = function() {
+	var widthOfPopup = 500;
+	var heightOfPopup = 450;
+
+	var dualScreenLeft = window.screenLeft;
+	var dualScreenTop = window.screenTop;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (widthOfPopup / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (heightOfPopup / 2)) + dualScreenTop;
+
+    return {'left': left, 'top': top, 'width': widthOfPopup, 'height': heightOfPopup};
+};
