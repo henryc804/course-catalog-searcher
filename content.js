@@ -1,18 +1,22 @@
 document.addEventListener('mouseup', function(event){
 	var text = window.getSelection().toString();
-	if (text.length && !isNaN(text)) {
-		chrome.runtime.sendMessage({'number': text, 'centerPopupValues': centerPopupValues()}, function(response) {
+	text = text.trim();
+	text = text.replace("[", "");
+	text = text.replace("]", "");
+	if (text.length && text.length < 10 && text.search(/^\w{1,3}\.\w{2,5}$/) !== -1) {
+		var values = centerPopupValues();
+		chrome.runtime.sendMessage({'number': text, 'centerPopupValues': values}, function(response) {
 		});
 	}
 });
 
-document.addEventListener('onkeyup', function(event){
-	var text = window.getSelection().toString();
-	if (text.length && !isNaN(text)) {
-		chrome.runtime.sendMessage({'number': text}, function(response) {
-		});
-	}
-});
+// document.addEventListener('onkeyup', function(event){
+// 	var text = window.getSelection().toString();
+// 	if (text.length && !isNaN(text)) {
+// 		chrome.runtime.sendMessage({'number': text}, function(response) {
+// 		});
+// 	}
+// });
 
 centerPopupValues = function() {
 	var widthOfPopup = 500;

@@ -4,33 +4,51 @@ chrome.runtime.onMessage.addListener(
 	}
 );
 
+
 var windowOfPopup;
 populatePopup = function(listOfElements, centerPopupValues) {
 	var tags = listOfElements[0];
 
-	var numberOfFirstTagsToRemove = 7;
-	for (var x = 0; x < numberOfFirstTagsToRemove; x++) {
+	while (tags.childNodes[0].nodeName !== "H3") {
 		tags.removeChild(tags.childNodes[0]);
 	}
 
-	// should also remove all things that come after the first h3 probably
-	// so probably just like, if you hit the second h3, remove everything after it
-	// just find the index value of the first h3, and then do a while loop until the length is less than that index value
+	var hrefsToChange = tags.getElementsByTagName("a");
+	for (var x = 0; x < hrefsToChange.length; x++) {
+		tags.getElementsByTagName("a")[x].setAttribute("href", tags.getElementsByTagName("a")[x].href);
+	}
 
-	windowOfPopup = openPopup(centerPopupValues);
+	if (windowOfPopup == null) {
+	    windowOfPopup = openPopup(centerPopupValues);
+	    windowOfPopup.onload = function() {
+	        var element = windowOfPopup.document.getElementById("parent");
+	        element.appendChild(tags);
+	        windowOfPopup.focus();
+	    };
+	    windowOfPopup.onbeforeunload = function(e) {
+	        windowOfPopup = null;
+	    };
+	} else {
+	    // var element = windowOfPopup.document.getElementById("parent");
+	    // while (element.firstChild) {
+	    //     element.removeChild(element.firstChild);
+	    // }
+	    // element.appendChild(tags);
+	    // windowOfPopup.focus();
+	    // ------------ OLD ABOVE ------------
+	    windowOfPopup.close();
+	    windowOfPopup = openPopup(centerPopupValues);
+	    windowOfPopup.onload = function() {
+	        var element = windowOfPopup.document.getElementById("parent");
+	        element.appendChild(tags);
+	        windowOfPopup.focus();
+	    };
+	    windowOfPopup.onbeforeunload = function(e) {
+	        windowOfPopup = null;
+	    };
 
-	windowOfPopup.onload = function() {
-		var element = windowOfPopup.document.getElementById("parent");
-		
-		// var s = new XMLSerializer();
-		// var str = s.serializeToString(tags);
-		// element.innerHTML = str;
+	}
 
-		//using appendChild because it is more efficient than innerHTML setting
-		element.appendChild(tags);
-
-		windowOfPopup.focus();
-	};
 };
 
 openPopup = function(centerPopupValues) {
