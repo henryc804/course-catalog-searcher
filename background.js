@@ -18,37 +18,18 @@ populatePopup = function(listOfElements, centerPopupValues) {
 		tags.getElementsByTagName("a")[x].setAttribute("href", tags.getElementsByTagName("a")[x].href);
 	}
 
-	if (windowOfPopup == null) {
-	    windowOfPopup = openPopup(centerPopupValues);
-	    windowOfPopup.onload = function() {
-	        var element = windowOfPopup.document.getElementById("parent");
-	        element.appendChild(tags);
-	        windowOfPopup.focus();
-	    };
-	    windowOfPopup.onbeforeunload = function(e) {
-	        windowOfPopup = null;
-	    };
-	} else {
-	    // var element = windowOfPopup.document.getElementById("parent");
-	    // while (element.firstChild) {
-	    //     element.removeChild(element.firstChild);
-	    // }
-	    // element.appendChild(tags);
-	    // windowOfPopup.focus();
-	    // ------------ OLD ABOVE ------------
-	    windowOfPopup.close();
-	    windowOfPopup = openPopup(centerPopupValues);
-	    windowOfPopup.onload = function() {
-	        var element = windowOfPopup.document.getElementById("parent");
-	        element.appendChild(tags);
-	        windowOfPopup.focus();
-	    };
-	    windowOfPopup.onbeforeunload = function(e) {
-	        windowOfPopup = null;
-	    };
-
+	if (windowOfPopup != null) {
+		windowOfPopup.close();
 	}
-
+    windowOfPopup = openPopup(centerPopupValues);
+    windowOfPopup.onload = function() {
+        var element = windowOfPopup.document.getElementById("parent");
+        element.appendChild(tags);
+        windowOfPopup.focus();
+    };
+    windowOfPopup.onbeforeunload = function(e) {
+        windowOfPopup = null;
+    };
 };
 
 openPopup = function(centerPopupValues) {
