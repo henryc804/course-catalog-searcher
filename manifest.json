@@ -3,7 +3,7 @@
 
   "name": "MIT Course Catalog Searcher",
   "description": "This extension shows the course description for current highlighted text",
-  "version": "0.8",
+  "version": "0.9",
 
 
   "browser_action": {
@@ -26,7 +26,6 @@
   }],
   "permissions": [
       "activeTab",
-      // "tabs",
       "http://student.mit.edu/catalog/"
   ]
 

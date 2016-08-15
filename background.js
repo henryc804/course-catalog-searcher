@@ -15,7 +15,11 @@ populatePopup = function(listOfElements, centerPopupValues) {
 
 	var hrefsToChange = tags.getElementsByTagName("a");
 	for (var x = 0; x < hrefsToChange.length; x++) {
-		tags.getElementsByTagName("a")[x].setAttribute("href", tags.getElementsByTagName("a")[x].href);
+		tags.getElementsByTagName("a")[x].setAttribute("href", hrefsToChange[x].href);	//tags.getElementsByTagName("a")[x].href
+	}
+	var imgsToChange = tags.getElementsByTagName("img");
+	for (var x = 0; x < imgsToChange.length; x++) {
+		tags.getElementsByTagName("img")[x].setAttribute("src", imgsToChange[x].src);
 	}
 
 	if (windowOfPopup != null) {
@@ -38,8 +42,23 @@ openPopup = function(centerPopupValues) {
 };
 
 var url;
+var courseEvalURL;
+var courseNumberWithoutJ;
+var hknURL;
 getHTML = function(courseNumber, centerPopupValues) {
 	url = "http://student.mit.edu/catalog/search.cgi?search=" + courseNumber + "&style=verbatim&when=*&termleng=4&days_offered=*&start_time=*&duration=*&total_units=*";
+	if (courseNumber.slice(-1) === "J") {
+		courseNumberWithoutJ = courseNumber.slice(0,-1);
+	} else {
+		courseNumberWithoutJ = courseNumber;
+	}
+	courseEvalURL = "https://edu-apps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?termId=&departmentId=&subjectCode=" + courseNumberWithoutJ + "&instructorName=&search=Search";
+	if (courseNumber.slice(0,1) === "6") {
+		hknURL = "https://hkn.mit.edu/new_ug/search/search?utf8=%E2%9C%93&subject_num=" + courseNumber + "&term_season=both&term_year=&button=Search&lec_id=&rec_id=&tut_id=&class_hours_eq=%3E&class_hours=&lab_hours_eq=%3E&lab_hours=&diff_rating_eq=%3E&diff_rating=&prep_hours_eq=%3E&prep_hours=&overall_rating_eq=%3E&overall_rating=&total_hours_eq=%3E&total_hours=";
+	} else {
+		hknURL = null;
+	}
+
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", url, true);
 	xhr.onload = function() {
@@ -55,4 +74,12 @@ getHTML = function(courseNumber, centerPopupValues) {
 getURL = function() {
 	windowOfPopup.close();
 	return url;
+};
+getCourseURL = function() {
+	// windowOfPopup.close();
+	return courseEvalURL;
+};
+gethknURL = function() {
+	// windowOfPopup.close();
+	return hknURL;
 };

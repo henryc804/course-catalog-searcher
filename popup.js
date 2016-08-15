@@ -9,3 +9,36 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.create(createProperties);
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  var navigateButton = document.getElementById('goToCourseEval');
+  navigateButton.addEventListener('click', function() {
+    var createProperties = {
+      url: chrome.extension.getBackgroundPage().getCourseURL(),
+      active: true
+    };
+
+    chrome.tabs.create(createProperties);
+  });
+});
+
+var hknURL = chrome.extension.getBackgroundPage().gethknURL();
+if (hknURL != null) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var button = document.createElement("BUTTON");
+    button.id = 'goToHKN';
+    var text = document.createTextNode("check it out on HKN");
+    button.appendChild(text);
+    document.getElementById('buttonGroup').appendChild(button);
+
+    var navigateButton = document.getElementById('goToHKN');
+    navigateButton.addEventListener('click', function() {
+      var createProperties = {
+          url: hknURL,
+          active: true
+      };
+      chrome.tabs.create(createProperties);
+    });
+
+  });
+}
