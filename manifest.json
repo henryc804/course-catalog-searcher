@@ -3,7 +3,7 @@
 
   "name": "MIT Course Catalog Searcher",
   "description": "This extension shows the course description for current highlighted text",
-  "version": "0.9",
+  "version": "1.0",
 
 
   "browser_action": {

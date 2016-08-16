@@ -14,9 +14,15 @@ populatePopup = function(listOfElements, centerPopupValues) {
 	}
 
 	var hrefsToChange = tags.getElementsByTagName("a");
+	var regExp = /PopUpHelp\('(.+)'\);$/;
 	for (var x = 0; x < hrefsToChange.length; x++) {
-		tags.getElementsByTagName("a")[x].setAttribute("href", hrefsToChange[x].href);	//tags.getElementsByTagName("a")[x].href
+		tags.getElementsByTagName("a")[x].setAttribute("href", hrefsToChange[x].href);
+		var match = regExp.exec(tags.getElementsByTagName("a")[x].href);
+		if (match != null) {
+			tags.getElementsByTagName("a")[x].setAttribute("href", match[1]);
+		}
 	}
+
 	var imgsToChange = tags.getElementsByTagName("img");
 	for (var x = 0; x < imgsToChange.length; x++) {
 		tags.getElementsByTagName("img")[x].setAttribute("src", imgsToChange[x].src);

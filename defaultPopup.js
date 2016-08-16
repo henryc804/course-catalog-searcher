@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('courseNumberTextBox').onkeypress = function(event){
+	    if (event.keyCode == 13) {
+		    document.getElementById('Submit').click();
+	    }
+	};
+});
+
 searchCourseNumber = function() {
 	var textboxInput = document.getElementById("courseNumberTextBox").value;
 	textboxInput = textboxInput.trim();
@@ -47,7 +56,6 @@ getHTML = function(courseNumber, centerPopupValues) {
 	} else {
 		courseNumberWithoutJ = courseNumber;
 	}
-	// debugger;
 	courseEvalURL = "https://edu-apps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?termId=&departmentId=&subjectCode=" + courseNumberWithoutJ + "&instructorName=&search=Search";
 	if (courseNumber.slice(0,1) === "6") {
 		hknURL = "https://hkn.mit.edu/new_ug/search/search?utf8=%E2%9C%93&subject_num=" + courseNumber + "&term_season=both&term_year=&button=Search&lec_id=&rec_id=&tut_id=&class_hours_eq=%3E&class_hours=&lab_hours_eq=%3E&lab_hours=&diff_rating_eq=%3E&diff_rating=&prep_hours_eq=%3E&prep_hours=&overall_rating_eq=%3E&overall_rating=&total_hours_eq=%3E&total_hours=";
@@ -75,8 +83,13 @@ populatePopup = function(listOfElements, centerPopupValues) {
 	}
 
 	var hrefsToChange = tags.getElementsByTagName("a");
+	var regExp = /PopUpHelp\('(.+)'\);$/;
 	for (var x = 0; x < hrefsToChange.length; x++) {
-		tags.getElementsByTagName("a")[x].setAttribute("href", hrefsToChange[x].href);	//tags.getElementsByTagName("a")[x].href
+		tags.getElementsByTagName("a")[x].setAttribute("href", hrefsToChange[x].href);
+		var match = regExp.exec(tags.getElementsByTagName("a")[x].href);
+		if (match != null) {
+			tags.getElementsByTagName("a")[x].setAttribute("href", match[1]);
+		}
 	}
 	var imgsToChange = tags.getElementsByTagName("img");
 	for (var x = 0; x < imgsToChange.length; x++) {

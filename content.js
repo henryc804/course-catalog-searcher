@@ -1,24 +1,34 @@
+var lastHighlightedText = "";
+
 document.addEventListener('mouseup', function(event){
 	var text = window.getSelection().toString();
-	text = text.trim();
-	text = text.replace("[", "");
-	text = text.replace("]", "");
-	if (text.length && text.length < 10 && text.search(/^\w{1,3}\.\w{2,5}$/) !== -1) {
-		var values = centerPopupValues();
-		chrome.runtime.sendMessage({'number': text, 'centerPopupValues': values}, function(response) {
-		});
+	if (lastHighlightedText != text) {
+		lastHighlightedText = text;
+		text = text.trim();
+		text = text.replace("[", "");
+		text = text.replace("]", "");
+		if (text.length && text.length < 10 && text.search(/^\w{1,3}\.\w{2,5}$/) !== -1) {
+			var values = centerPopupValues();
+			chrome.runtime.sendMessage({'number': text, 'centerPopupValues': values}, function(response) {
+			});
+		}
 	}
 });
 
 document.addEventListener('keyup', function(event){
-	var text = window.getSelection().toString();
-	text = text.trim();
-	text = text.replace("[", "");
-	text = text.replace("]", "");
-	if (text.length && text.length < 10 && text.search(/^\w{1,3}\.\w{2,5}$/) !== -1) {
-		var values = centerPopupValues();
-		chrome.runtime.sendMessage({'number': text, 'centerPopupValues': values}, function(response) {
-		});
+	if (event.keyCode >= 35 && event.keyCode <= 40) {
+		var text = window.getSelection().toString();
+		if (lastHighlightedText != text) {
+			lastHighlightedText = text;
+			text = text.trim();
+			text = text.replace("[", "");
+			text = text.replace("]", "");
+			if (text.length && text.length < 10 && text.search(/^\w{1,3}\.\w{2,5}$/) !== -1) {
+				var values = centerPopupValues();
+				chrome.runtime.sendMessage({'number': text, 'centerPopupValues': values}, function(response) {
+				});
+			}
+		}
 	}
 });
 
