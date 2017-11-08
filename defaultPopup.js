@@ -35,6 +35,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 });
 
+
+window.onload = function() {
+    document.getElementById("courseNumberTextBox").focus();   
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("courseNumberTextBox").focus();
+}, false);
+
 searchCourseNumber = function() {
 	var textboxInput = document.getElementById("courseNumberTextBox").value;
 	textboxInput = textboxInput.trim();
@@ -58,7 +67,7 @@ getHTML = function(courseNumber, centerPopupValues) {
 	}
 	courseEvalURL = "https://edu-apps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?termId=&departmentId=&subjectCode=" + courseNumberWithoutJ + "&instructorName=&search=Search";
 	if (courseNumber.slice(0,1) === "6") {
-		hknURL = "https://hkn.mit.edu/new_ug/search/search?utf8=%E2%9C%93&subject_num=" + courseNumber + "&term_season=both&term_year=&button=Search&lec_id=&rec_id=&tut_id=&class_hours_eq=%3E&class_hours=&lab_hours_eq=%3E&lab_hours=&diff_rating_eq=%3E&diff_rating=&prep_hours_eq=%3E&prep_hours=&overall_rating_eq=%3E&overall_rating=&total_hours_eq=%3E&total_hours=";
+		hknURL = "https://underground-guide.mit.edu/search?q=" + courseNumber;
 	} else {
 		hknURL = null;
 	}
