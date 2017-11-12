@@ -89,3 +89,6 @@ gethknURL = function() {
 	windowOfPopup.close();
 	return hknURL;
 };
+hashknURL = function() {
+	return hknURL;
+};

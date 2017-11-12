@@ -78,7 +78,9 @@ getHTML = function(courseNumber, centerPopupValues) {
 		var listOfElements = this.responseXML.getElementsByTagName("blockquote");
 		if (listOfElements[0].getElementsByTagName("H3").length !== 0) {
 			populatePopup(listOfElements);
-		}
+		} else {
+            showNoResultsMsg();
+        }
 	};
 	xhr.responseType = "document";
 	xhr.send();
@@ -118,6 +120,25 @@ populatePopup = function(listOfElements, centerPopupValues) {
     document.getElementById("body").style.width = "500px";
     document.getElementById("body").style.height = "400px";
     document.getElementsByTagName("blockquote")[0].style.marginLeft = "-1px";
+};
+
+showNoResultsMsg = function() {
+    var element = document.getElementById("parent");
+    while (element.childNodes.length !== 0) {
+        element.removeChild(element.childNodes[0]);
+    }
+
+    element.appendChild(document.createElement("br"));
+    element.appendChild(document.createElement("hr"));
+
+    var textDiv = document.createElement("p");
+    var textDivContent = document.createTextNode("NO RESULTS");
+    textDiv.appendChild(textDivContent);
+    element.appendChild(textDiv);
+
+    document.getElementById("body").style.width = "500px";
+    document.getElementById("body").style.height = "400px";
+    document.getElementsByTagName("blockquote")[0].style.marginLeft = "-1px";    
 };
 
 

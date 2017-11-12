@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-var hknURL = chrome.extension.getBackgroundPage().gethknURL();
-if (hknURL != null) {
+var hknURL = chrome.extension.getBackgroundPage().hashknURL();
+if (hknURL !== null) {
   document.addEventListener('DOMContentLoaded', function() {
     var button = document.createElement("BUTTON");
     button.id = 'goToHKN';
@@ -34,7 +34,7 @@ if (hknURL != null) {
     var navigateButton = document.getElementById('goToHKN');
     navigateButton.addEventListener('click', function() {
       var createProperties = {
-          url: hknURL,
+          url: chrome.extension.getBackgroundPage().gethknURL(),
           active: true
       };
       chrome.tabs.create(createProperties);
